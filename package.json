@@ -1,0 +1,16 @@
+{
+  "name": "gitbook-plugin-panels",
+  "version": "0.0.1",
+  "description": "Block definitions for Bootstrap panels.",
+  "dependencies": {
+    "slate": "0.x.x",
+    "markup-it": "^3.5.0"
+  },
+  "engines": {
+    "gitbook": ">1.x.x"
+  },
+  "gitbook": {
+    "properties": {
+    }
+  }
+}
