@@ -1,6 +1,4 @@
-const { State } = require('markup-it');
-const markdown = require('markup-it/lib/markdown');
-const html = require('markup-it/lib/html');
+var marked = require('marked');
 
 function parseMarkdown(text, debug) {
   const latexMatcher = /(\$\$[\s\S][^$]+\$\$)/g;
@@ -8,10 +6,7 @@ function parseMarkdown(text, debug) {
   const matches = text.match(latexMatcher);
   const textWithoutLatex = text.replace(latexMatcher, latexPlaceholder);
 
-  const mdState = State.create(markdown);
-  const document = mdState.deserializeToDocument(textWithoutLatex);
-  const htmlState = State.create(html);
-  var str = htmlState.serializeDocument(document);
+  var str = marked(textWithoutLatex);
 
   if (matches !== null) {
     for (var i = 0; i < matches.length; i++) {
