@@ -17,11 +17,16 @@ function parseMarkdown(text, debug) {
   return str;
 };
 
-function panel(block, type) {
+/* `icon` is the name of a Font Awesome icon class. */
+function panel(block, type, icon) {
   var s  = '<div class="panel panel-' + type + '">';
   if (block.args.length > 0) {
     s += '<div class="panel-heading">';
     s += '<h3 class="panel-title">';
+    if (icon !== undefined) {
+      s += '<i class="fa fa-' + icon + '">';
+      s += "</i> ";
+    }
     s += block.args[0];
     s += "</h3>";
     s += "</div>";
@@ -69,20 +74,25 @@ module.exports = {
       }
     },
     // Block names that match what we used in the SWC templates
+    prereq: {
+      process: function(block) {
+        return panel(block, "warning", "rocket");
+      }
+    },
     callout: {
       process: function(block) {
-        return panel(block, "primary");
+        return panel(block, "primary", "info-circle");
       }
     },
     challenge: {
       process: function(block) {
         parseMarkdown(block.body, true);
-        return panel(block, "success");
+        return panel(block, "success", "check-square-o");
       }
     },
     objectives: {
       process: function(block) {
-        return panel(block, "warning");
+        return panel(block, "warning", "line-chart");
       }
     }
   }
