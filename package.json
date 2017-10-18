@@ -1,6 +1,6 @@
 {
   "name": "gitbook-plugin-panels",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Block definitions for Bootstrap panels.",
   "dependencies": {
     "marked": "^0.3.6"

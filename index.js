@@ -19,20 +19,35 @@ function parseMarkdown(text, debug) {
 
 /* `icon` is the name of a Font Awesome icon class. */
 function panel(block, type, icon) {
+  // Generate a random id so blocks can be collapsed
+  var id = Math.floor(Math.random()*10000000000);
+
   var s  = '<div class="panel panel-' + type + '">';
   if (block.args.length > 0) {
     s += '<div class="panel-heading">';
-    s += '<h3 class="panel-title">';
+    s += '<h3 class="panel-title" onclick="javascript:toggle('+id+');">';
     if (icon !== undefined) {
       s += '<i class="fa fa-' + icon + '">';
       s += "</i> ";
     }
     s += block.args[0];
+    if (block.name == "solution") {
+      s +=  '<span>Click to expand</span>';
+    }
     s += "</h3>";
     s += "</div>";
   }
-  s += '<div class="panel-body">';
+  if (block.name == "solution") {
+    s += '<div class="panel-body" style="display: none" id="panel-'+id+'">';
+  } else {
+    s += '<div class="panel-body" id="panel-'+id+'">';
+  }
   s += parseMarkdown(block.body);
+  if (block.blocks) {
+    block.blocks.forEach((subblock) => {
+      s += panel(subblock, "danger", "line-chart");
+    });
+  }
   s += "</div>";
   s += "</div>";
   return s;
@@ -42,7 +57,10 @@ module.exports = {
   website: {
     assets: "./assets",
     css: [
-      "panels.css"
+      "panels.css",
+    ],
+    js: [
+      "panels.js",
     ]
   },
 
@@ -85,9 +103,14 @@ module.exports = {
       }
     },
     challenge: {
+      blocks: ['solution'],
       process: function(block) {
-        parseMarkdown(block.body, true);
-        return panel(block, "success", "check-square-o");
+        return panel(block, "success", "square-o");
+      }
+    },
+    solution: {
+      process: function(block) {
+        return panel(block, "danger", "check-square-o");
       }
     },
     objectives: {
