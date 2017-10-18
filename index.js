@@ -31,9 +31,11 @@ function panel(block, type, icon) {
       s += "</i> ";
     }
     s += block.args[0];
+    s +=  '<span id="heading-'+id+'">'
     if (block.name == "solution") {
-      s +=  '<span>Click to expand</span>';
+      s += 'Click to expand'
     }
+    s += '</span>';
     s += "</h3>";
     s += "</div>";
   }
