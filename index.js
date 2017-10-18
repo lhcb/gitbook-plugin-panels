@@ -119,6 +119,11 @@ module.exports = {
       process: function(block) {
         return panel(block, "warning", "line-chart");
       }
+    },
+    keypoints: {
+      process: function(block) {
+        return panel(block, "success", "key");
+      }
     }
   }
 };
