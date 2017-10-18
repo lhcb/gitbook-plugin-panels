@@ -1,7 +1,7 @@
 function toggle(id) {
   var ele = document.getElementById("panel-"+id);
   var text = document.getElementById("heading-"+id);
-  if(ele.style.display == "block") {
+  if(window.getComputedStyle(ele).display == "block") {
     ele.style.display = "none";
     text.innerHTML = "Click to expand";
   }
