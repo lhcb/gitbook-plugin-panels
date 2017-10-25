@@ -74,10 +74,9 @@
 }
 
 .panel-heading h3 span {
+  float: right;
+  margin-top: 0.5em;
   font-size: 0.7em;
-  position: absolute;
-  bottom: 0;
-  right: 0;
 }
 
 .panel-body {
