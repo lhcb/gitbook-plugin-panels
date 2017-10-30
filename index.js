@@ -1,4 +1,5 @@
 var marked = require('marked');
+// var output = require('lib/output');
 
 function parseMarkdown(text, debug) {
   const latexMatcher = /(\$\$[\s\S][^$]+\$\$)/g;
@@ -18,7 +19,7 @@ function parseMarkdown(text, debug) {
 };
 
 /* `icon` is the name of a Font Awesome icon class. */
-function panel(block, type, icon) {
+function panel(output_type, block, type, icon) {
   // Generate a random id so blocks can be collapsed
   var id = Math.floor(Math.random()*10000000000);
 
@@ -32,14 +33,14 @@ function panel(block, type, icon) {
     }
     s += block.args[0];
     s +=  '<span id="heading-'+id+'">'
-    if (block.name == "solution") {
+    if (block.name == "solution" && output_type == 'website') {
       s += 'Click to expand'
     }
     s += '</span>';
     s += "</h3>";
     s += "</div>";
   }
-  if (block.name == "solution") {
+  if (block.name == "solution" && output_type == 'website') {
     s += '<div class="panel-body" style="display: none" id="panel-'+id+'">';
   } else {
     s += '<div class="panel-body" id="panel-'+id+'">';
@@ -47,7 +48,7 @@ function panel(block, type, icon) {
   s += parseMarkdown(block.body);
   if (block.blocks) {
     block.blocks.forEach((subblock) => {
-      s += panel(subblock, "danger", "line-chart");
+      s += panel(output_type, subblock, "danger", "line-chart");
     });
   }
   s += "</div>";
@@ -65,64 +66,70 @@ module.exports = {
       "panels.js",
     ]
   },
+  ebook: {
+    assets: "./assets",
+    css: [
+      "ebook.css",
+    ]
+  },
 
   blocks: {
     // Block names that match Bootstrap classes
     panel: {
       process: function(block) {
-        return panel(block, 'default');
+        return panel(this.output.name, block, 'default');
       }
     },
     panel_primary: {
       process: function(block) {
-        return panel(block, "primary");
+        return panel(this.output.name, block, "primary");
       }
     },
     panel_success: {
       process: function(block) {
-        return panel(block, "success");
+        return panel(this.output.name, block, "success");
       }
     },
     panel_warning: {
       process: function(block) {
-        return panel(block, "warning");
+        return panel(this.output.name, block, "warning");
       }
     },
     panel_danger: {
       process: function(block) {
-        return panel(block, "danger");
+        return panel(this.output.name, block, "danger");
       }
     },
     // Block names that match what we used in the SWC templates
     prereq: {
       process: function(block) {
-        return panel(block, "warning", "rocket");
+        return panel(this.output.name, block, "warning", "rocket");
       }
     },
     callout: {
       process: function(block) {
-        return panel(block, "primary", "info-circle");
+        return panel(this.output.name, block, "primary", "info-circle");
       }
     },
     challenge: {
       blocks: ['solution'],
       process: function(block) {
-        return panel(block, "success", "square-o");
+        return panel(this.output.name, block, "success", "square-o");
       }
     },
     solution: {
       process: function(block) {
-        return panel(block, "danger", "check-square-o");
+        return panel(this.output.name, block, "danger", "check-square-o");
       }
     },
     objectives: {
       process: function(block) {
-        return panel(block, "warning", "line-chart");
+        return panel(this.output.name, block, "warning", "line-chart");
       }
     },
     keypoints: {
       process: function(block) {
-        return panel(block, "success", "key");
+        return panel(this.output.name, block, "success", "key");
       }
     }
   }
