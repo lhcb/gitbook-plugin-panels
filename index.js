@@ -21,11 +21,11 @@ function parseMarkdown(text, debug) {
 /* `icon` is the name of a Font Awesome icon class. */
 function panel(output_type, block, type, icon, hide=false) {
   // Generate a random id so blocks can be collapsed
-  var id = Math.floor(Math.random()*10000000000);
+  const id = Math.floor(Math.random()*10000000000);
+  const start_closed = hide && output_type == 'website' && block.args.length > 0;
 
   var s  = '<div class="panel panel-' + type + '">';
   if (block.args.length > 0) {
-    var expandable = hide && output_type == 'website';
     s += '<div class="panel-heading">';
     s += '<h3 class="panel-title" onclick="javascript:toggle('+id+');">';
     if (icon !== undefined) {
@@ -34,14 +34,14 @@ function panel(output_type, block, type, icon, hide=false) {
     }
     s += block.args[0];
     s +=  '<span id="heading-'+id+'">'
-    if (expandable) {
+    if (start_closed) {
       s += 'Click to expand'
     }
     s += '</span>';
     s += "</h3>";
     s += "</div>";
   }
-  if (expandable) {
+  if (start_closed) {
     s += '<div class="panel-body" style="display: none" id="panel-'+id+'">';
   } else {
     s += '<div class="panel-body" id="panel-'+id+'">';
