@@ -14,8 +14,11 @@ This adds Bootstrap panels, Software Carpentry style, to GitBook.
 | `{% solution "title" %}`   | `danger`  | `check-square-o` | true  |
 | `{% objectives "title" %}` | `warning` | `line-chart`     | false |
 | `{% keypoints "title" %}`  | `success` | `key`            | false |
-| `{% discussion "title" %}`  | `info`    | `bell`           | true  |
+| `{% discussion "title" %}` | `info`    | `bell`           | true  |
 
+The `solution` block can be nested inside the `challenge` block, but in that case,
+you should not include `{% endsolution %}` (that's just how nested GitBook blocks work).
+Nested solution blocks use a `line-chart` icon by default.
 
 ## The options:
 

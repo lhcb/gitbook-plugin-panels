@@ -55,7 +55,7 @@ function panel(output_type, block, style, icon, hide=false) {
   s += parseMarkdown(block.body);
   if (block.blocks) {
     block.blocks.forEach((subblock) => {
-      s += panel(output_type, subblock, "danger", "line-chart");
+      s += panel(output_type, subblock, "danger", "line-chart", true);
     });
   }
   s += "</div>";
