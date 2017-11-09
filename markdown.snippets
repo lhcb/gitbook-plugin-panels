@@ -6,7 +6,7 @@ snippet panel "Add any panel"
 	{% end$1 %}
 
 snippet prereq "Add a prereq panel"
-	{% prereq "${1:title}" %}
+	{% prereq "${1:Prerequisites}" %}
 	${VISUAL}$0
 	{% endprereq %}
 
@@ -16,26 +16,26 @@ snippet callout "Add a callout panel"
 	{% endcallout %}
 
 snippet challenge "Add a challenge panel"
-	{% challenge "${1:title}" %}
+	{% challenge "${1:Challenge}" %}
 	${VISUAL}$0
 	{% endchallenge %}
 
 snippet solution "Add a solution panel"
-	{% solution "${1:title}" %}
+	{% solution "${1:Solution}" %}
 	${VISUAL}$0
 	{% endsolution %}
 
 snippet objectives "Add a objectives panel"
-	{% objectives "${1:title}" %}
+	{% objectives "${1:Learning Objectives}" %}
 	${VISUAL}$0
 	{% endobjectives %}
 
 snippet keypoints "Add a keypoints panel"
-	{% keypoints "${1:title}" %}
+	{% keypoints "${1:Further reading}" %}
 	${VISUAL}$0
 	{% endkeypoints %}
 
 snippet discussion "Add a discussion panel"
-	{% discussion "${1:title}" %}
+	{% discussion "${1:Discussion}" %}
 	${VISUAL}$0
 	{% enddiscussion %}
