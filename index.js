@@ -19,9 +19,10 @@ function parseMarkdown(text, debug) {
 };
 
 /* `icon` is the name of a Font Awesome icon class. */
-function panel(output_type, block, type, icon) {
+function panel(output_type, block, type, icon, hide=false) {
   // Generate a random id so blocks can be collapsed
-  var id = Math.floor(Math.random()*10000000000);
+  const id = Math.floor(Math.random()*10000000000);
+  const start_closed = hide && output_type == 'website' && block.args.length > 0;
 
   var s  = '<div class="panel panel-' + type + '">';
   if (block.args.length > 0) {
@@ -33,14 +34,14 @@ function panel(output_type, block, type, icon) {
     }
     s += block.args[0];
     s +=  '<span id="heading-'+id+'">'
-    if (block.name == "solution" && output_type == 'website') {
+    if (start_closed) {
       s += 'Click to expand'
     }
     s += '</span>';
     s += "</h3>";
     s += "</div>";
   }
-  if (block.name == "solution" && output_type == 'website') {
+  if (start_closed) {
     s += '<div class="panel-body" style="display: none" id="panel-'+id+'">';
   } else {
     s += '<div class="panel-body" id="panel-'+id+'">';
@@ -119,7 +120,7 @@ module.exports = {
     },
     solution: {
       process: function(block) {
-        return panel(this.output.name, block, "danger", "check-square-o");
+        return panel(this.output.name, block, "danger", "check-square-o", true);
       }
     },
     objectives: {
@@ -130,6 +131,11 @@ module.exports = {
     keypoints: {
       process: function(block) {
         return panel(this.output.name, block, "success", "key");
+      }
+    },
+    discussion: {
+      process: function(block) {
+        return panel(this.output.name, block, "success", "bell", true);
       }
     }
   }
