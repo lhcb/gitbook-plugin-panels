@@ -31,6 +31,10 @@
   border-top-right-radius: 3px;
 }
 
+.panel-heading .panel-title code {
+    background-color: rgba(247, 247, 247, 0.55);
+}
+
 .panel-default > .panel-heading {
   color: #333;
   background-color: #f5f5f5;

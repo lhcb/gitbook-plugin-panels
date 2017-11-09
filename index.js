@@ -1,13 +1,15 @@
 var marked = require('marked');
-// var output = require('lib/output');
 
-function parseMarkdown(text, debug) {
+function parseMarkdown(text, inline=false) {
   const latexMatcher = /(\$\$[\s\S][^$]+\$\$)/g;
   const latexPlaceholder = 'LATEXPLACEHOLDER';
   const matches = text.match(latexMatcher);
   const textWithoutLatex = text.replace(latexMatcher, latexPlaceholder);
 
-  var str = marked(textWithoutLatex);
+  if(inline) {
+      var str = marked.inlineLexer(textWithoutLatex, []);
+  } else
+      var str = marked(textWithoutLatex);
 
   if (matches !== null) {
     for (var i = 0; i < matches.length; i++) {
@@ -32,7 +34,7 @@ function panel(output_type, block, type, icon, hide=false) {
       s += '<i class="fa fa-' + icon + '">';
       s += "</i> ";
     }
-    s += block.args[0];
+    s += parseMarkdown(block.args[0], true);
     s +=  '<span id="heading-'+id+'">'
     if (start_closed) {
       s += 'Click to expand'
