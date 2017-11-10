@@ -6,10 +6,11 @@ function parseMarkdown(text, inline=false) {
   const matches = text.match(latexMatcher);
   const textWithoutLatex = text.replace(latexMatcher, latexPlaceholder);
 
-  if(inline) {
+  if (inline) {
       var str = marked.inlineLexer(textWithoutLatex, []);
-  } else
+  } else {
       var str = marked(textWithoutLatex);
+  }
 
   if (matches !== null) {
     for (var i = 0; i < matches.length; i++) {
