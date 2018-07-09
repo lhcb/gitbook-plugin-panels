@@ -22,12 +22,18 @@ function parseMarkdown(text, inline=false) {
 };
 
 /* `icon` is the name of a Font Awesome icon class. */
-function panel(output_type, block, type, icon, hide=false) {
+function panel(output_type, block, style, icon, hide=false) {
+
+  // Read keyword arguments, taking defaults from blocks
+  style = block.kwargs.style || style;
+  icon = block.kwargs.icon || icon;
+  hide = "hide" in block.kwargs ? block.kwargs.hide : hide;
+
   // Generate a random id so blocks can be collapsed
   const id = Math.floor(Math.random()*10000000000);
   const start_closed = hide && output_type == 'website' && block.args.length > 0;
 
-  var s  = '<div class="panel panel-' + type + '">';
+  var s  = '<div class="panel panel-' + style + '">';
   if (block.args.length > 0) {
     s += '<div class="panel-heading">';
     s += '<h3 class="panel-title" onclick="javascript:toggle('+id+');">';
@@ -52,7 +58,7 @@ function panel(output_type, block, type, icon, hide=false) {
   s += parseMarkdown(block.body);
   if (block.blocks) {
     block.blocks.forEach((subblock) => {
-      s += panel(output_type, subblock, "danger", "line-chart");
+      s += panel(output_type, subblock, "danger", "line-chart", true);
     });
   }
   s += "</div>";
@@ -81,27 +87,9 @@ module.exports = {
     // Block names that match Bootstrap classes
     panel: {
       process: function(block) {
-        return panel(this.output.name, block, 'default');
-      }
-    },
-    panel_primary: {
-      process: function(block) {
-        return panel(this.output.name, block, "primary");
-      }
-    },
-    panel_success: {
-      process: function(block) {
-        return panel(this.output.name, block, "success");
-      }
-    },
-    panel_warning: {
-      process: function(block) {
-        return panel(this.output.name, block, "warning");
-      }
-    },
-    panel_danger: {
-      process: function(block) {
-        return panel(this.output.name, block, "danger");
+        // Valid styles:
+        // default, primary, success, info, warning, danger
+        return panel(this.output.name, block, "default");
       }
     },
     // Block names that match what we used in the SWC templates
@@ -138,7 +126,7 @@ module.exports = {
     },
     discussion: {
       process: function(block) {
-        return panel(this.output.name, block, "success", "bell", true);
+        return panel(this.output.name, block, "info", "bell", true);
       }
     }
   }
