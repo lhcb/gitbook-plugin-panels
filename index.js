@@ -109,6 +109,12 @@ module.exports = {
         return panel(this.output.name, block, "success", "square-o");
       }
     },
+    hiddenchallenge: {
+      blocks: ['solution'],
+      process: function(block) {
+        return panel(this.output.name, block, "success", "square-o", true);
+      }
+    },
     solution: {
       process: function(block) {
         return panel(this.output.name, block, "danger", "check-square-o", true);
